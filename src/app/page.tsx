@@ -1,65 +1,132 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function Home() {
+const sections = [
+  { id: 'vetrumai', name: 'Vetrumai', tamil: 'வேற்றுமை' },
+  { id: 'seyyul_pazhamozhi', name: 'Poetry/Proverbs', tamil: 'செய்யுள்/பழமொழி' },
+  { id: 'adaimozhi_echcham', name: 'Adjectives', tamil: 'அடைமொழி/எச்சம்' },
+  { id: 'comprehension', name: 'Comprehension', tamil: 'படிப்புணர்வு' },
+  { id: 'sorporul', name: 'Word Meanings', tamil: 'சொற்பொருள்' },
+  { id: 'oli_verupaadu', name: 'Sound Diff', tamil: 'ஒலி வேறுபாடு' },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+      {/* Header */}
+      <header className="border-b bg-white/80 backdrop-blur-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold text-orange-600">TamilPSLE</span>
+            <span className="font-tamil text-lg text-orange-500">தமிழ்</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link href="/login">
+              <Button variant="ghost">Log in</Button>
+            </Link>
+            <Link href="/signup">
+              <Button>Sign up</Button>
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-16 text-center">
+        <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          Master Tamil for{' '}
+          <span className="text-orange-600">PSLE</span>
+        </h1>
+        <p className="font-tamil mb-2 text-2xl text-orange-600">தமிழ் PSLE பயிற்சி</p>
+        <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-600">
+          Practice MCQ questions, get instant word meanings, and track your progress.
+          Designed for Singapore primary school students preparing for PSLE Tamil.
+        </p>
+        <div className="flex justify-center gap-4">
+          <Link href="/signup">
+            <Button size="lg" className="bg-orange-600 hover:bg-orange-700">
+              Start Practicing Free
+            </Button>
+          </Link>
+          <Link href="/login">
+            <Button size="lg" variant="outline">
+              Log in
+            </Button>
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Practice Sections */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="mb-8 text-center text-2xl font-semibold text-gray-900">
+          Practice Sections
+        </h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {sections.map((section) => (
+            <Card key={section.id} className="transition-shadow hover:shadow-md">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">{section.name}</CardTitle>
+                <CardDescription className="font-tamil text-base">
+                  {section.tamil}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href={`/login?redirect=/practice/${section.id}`}>
+                  <Button variant="outline" className="w-full">
+                    Practice
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="bg-orange-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="mb-12 text-center text-2xl font-semibold text-gray-900">
+            Why TamilPSLE?
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
+                <span className="text-2xl">📝</span>
+              </div>
+              <h3 className="mb-2 font-semibold">PSLE-Aligned Questions</h3>
+              <p className="text-sm text-gray-600">
+                Practice with questions designed to match the PSLE Tamil exam format.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
+                <span className="text-2xl">📖</span>
+              </div>
+              <h3 className="mb-2 font-semibold">Instant Word Meanings</h3>
+              <p className="text-sm text-gray-600">
+                Tap any Tamil word to see its meaning in context. Save words to review later.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
+                <span className="text-2xl">📊</span>
+              </div>
+              <h3 className="mb-2 font-semibold">Track Progress</h3>
+              <p className="text-sm text-gray-600">
+                See your scores, review mistakes, and watch your improvement over time.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t bg-white py-8">
+        <div className="container mx-auto px-4 text-center text-sm text-gray-500">
+          <p>&copy; 2026 TamilPSLE. Built for Singapore students.</p>
+        </div>
+      </footer>
     </div>
   );
 }
