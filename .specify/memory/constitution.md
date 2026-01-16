@@ -1,50 +1,100 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# TamilPSLE Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Privacy-First (NON-NEGOTIABLE)
+- All user content is private-by-default; no public redistribution of copyrighted exam papers
+- Never log tokens, private uploads, or personally identifying student data (name, email, attempt details)
+- Student practice data visible only to: the student, their assigned teacher(s), and system admins
+- File uploads (OCR images) are ephemeral or access-controlled; never publicly accessible
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Security by Default (NON-NEGOTIABLE)
+- Supabase RLS policies on **every** table containing user, class, or attempt data—no exceptions
+- All Gemini/external API keys are server-side only; never bundled in client code or exposed via API responses
+- Rate limiting and per-user quotas enforced on all AI endpoints (hover meaning, OCR assist)
+- Authentication required for all data-mutating operations; role-based access (student, teacher, admin)
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Code Quality Standards
+- TypeScript `strict` mode enabled; no `any` types without explicit justification
+- Zod schemas for all API request/response validation and form inputs
+- ESLint + Prettier enforced; CI blocks merges on lint failures
+- Small, focused PRs (< 400 lines preferred); conventional commits (`feat:`, `fix:`, `chore:`, etc.)
+- No dead code, commented-out blocks, or unused dependencies in main branch
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Testing Requirements
+- Playwright smoke tests required for critical paths before MVP ship:
+  - Login/logout flow
+  - Student practice session (start → answer → submit)
+  - Hover/tap word meaning lookup
+  - Class join (student)
+  - Assignment completion (student)
+- New features must include at least one happy-path test
+- CI must pass all tests before merge to main
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Simplicity & MVP Focus
+- YAGNI: Build only what's in-scope for the 1-week MVP; defer nice-to-haves
+- Start simple; optimize only when measured bottlenecks appear
+- Prefer established patterns (App Router conventions, shadcn/ui components) over custom abstractions
+- Every feature must trace back to an in-scope MVP requirement
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Security & Privacy Requirements
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### Data Classification
+| Classification | Examples | Storage Rules |
+|---------------|----------|---------------|
+| Public | Question categories, app UI text | No restrictions |
+| Internal | Question content, answer options | RLS: authenticated users only |
+| Confidential | Student attempts, scores, class rosters | RLS: owner + assigned teacher + admin |
+| Restricted | API keys, tokens, uploaded images | Server-only; never logged; ephemeral storage |
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### API Security
+- All `/api/*` routes validate session via Supabase Auth
+- AI endpoints (`/api/meaning`, `/api/ocr`) enforce:
+  - Authentication required
+  - Rate limit: 60 requests/min per user (meaning), 10 requests/min per user (OCR)
+  - Request size limits: 5MB max for image uploads
+- CORS configured for production domain only
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### Logging Policy
+- **ALLOWED**: Request IDs, timestamps, endpoint names, response status codes, anonymized metrics
+- **FORBIDDEN**: Auth tokens, API keys, student names/emails, uploaded file contents, raw question text with PII
+
+## Development Workflow
+
+### Definition of Done Checklist
+A feature is "Done" when:
+- [ ] Code compiles with zero TypeScript errors
+- [ ] All Zod schemas validate inputs/outputs
+- [ ] Lint and format checks pass
+- [ ] RLS policies added/updated for any new tables
+- [ ] At least one Playwright test covers the happy path
+- [ ] No secrets or API keys in client-facing code
+- [ ] PR description links to requirement/task
+- [ ] Code reviewed and approved by at least one team member
+- [ ] Deployed to preview environment and manually verified
+
+### Branch & Commit Strategy
+- `main` branch is protected; direct pushes blocked
+- Feature branches: `feat/<short-description>`
+- Commit format: `type(scope): description` (e.g., `feat(practice): add vetrumai question type`)
+- Squash merge to main; keep commit history clean
+
+### Tech Stack (Locked for MVP)
+| Layer | Technology | Notes |
+|-------|-----------|-------|
+| Framework | Next.js 14+ (App Router) | TypeScript strict |
+| UI | shadcn/ui + Tailwind | Consistent component library |
+| Auth & DB | Supabase (Auth + Postgres + Storage) | RLS mandatory |
+| AI | Gemini 2.0 Flash API | Server-side only |
+| Testing | Playwright | E2E smoke tests |
+| Hosting | Vercel | Preview + Production |
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This Constitution supersedes all informal practices and ad-hoc decisions
+- All PRs must verify compliance with Core Principles before approval
+- Amendments require: documented rationale, team review, and migration plan for affected code
+- Complexity beyond MVP scope must be justified in writing and approved
+- Security/privacy violations are blocking issues; no exceptions for deadlines
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16
