@@ -241,21 +241,28 @@ Based on plan.md structure:
 
 ### Playwright E2E Tests (Constitution Requirement)
 
-- [ ] T080 [P] Configure Playwright test setup in playwright.config.ts
-- [ ] T081 [P] Create auth smoke test in tests/e2e/auth.spec.ts
-- [ ] T082 [P] Create practice session smoke test in tests/e2e/practice.spec.ts
-- [ ] T083 [P] Create hover meaning smoke test in tests/e2e/hover-meaning.spec.ts
-- [ ] T084 [P] Create class join smoke test in tests/e2e/class-join.spec.ts
-- [ ] T085 [P] Create assignment smoke test in tests/e2e/assignment.spec.ts
-- [ ] T086 [P] Create admin question smoke test in tests/e2e/admin-question.spec.ts
+- [x] T080 [P] Configure Playwright test setup in playwright.config.ts
+- [x] T081 [P] Create auth smoke test in tests/auth.spec.ts
+- [x] T082 [P] Create practice session smoke test in tests/practice.spec.ts
+- [x] T083 [P] Create meaning smoke test in tests/meaning.spec.ts
+- [x] T084 [P] Create class management smoke test in tests/classes.spec.ts
+- [x] T085 [P] Create assignment smoke test in tests/assignments.spec.ts
+- [x] T086 [P] Create admin question smoke test in tests/admin.spec.ts
 
 ### Deployment & Validation
 
-- [ ] T087 Verify all environment variables documented in .env.example
-- [ ] T088 Verify all RLS policies with test queries
+- [x] T087 Verify all environment variables documented in .env.example
+- [x] T088 Verify all RLS policies with test queries
 - [ ] T089 Configure Vercel deployment settings
 - [ ] T090 Run quickstart.md validation end-to-end
-- [ ] T091 Final code cleanup and lint fixes
+- [x] T091 Final code cleanup and lint fixes
+
+### Security Hardening (Added 2026-01-19)
+
+- [x] T092 Add security headers to next.config.ts (HSTS, X-Frame-Options, etc.)
+- [x] T093 Expand rate limiting to all write/AI API routes
+- [x] T094 Add file upload validation (size, MIME type, extension)
+- [x] T095 Create security.md documentation
 
 ---
 

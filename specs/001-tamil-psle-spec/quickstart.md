@@ -193,11 +193,15 @@ After running seed script:
 ### Production Checklist
 
 - [ ] All environment variables set in Vercel
-- [ ] Supabase RLS policies verified
-- [ ] Rate limiting enabled
+- [ ] Supabase RLS policies verified (see `supabase/migrations/006_rls_policies.sql`)
+- [ ] Security headers enabled (configured in `next.config.ts`)
+- [ ] Rate limiting active (see `src/lib/rate-limit.ts`)
+- [ ] File upload validation working (max 5MB, image types only)
 - [ ] Email templates configured in Supabase
 - [ ] CORS configured for production domain
-- [ ] Playwright smoke tests pass
+- [ ] Playwright smoke tests pass (45 tests)
+
+For detailed security documentation, see [security.md](./security.md).
 
 ---
 
@@ -232,6 +236,7 @@ After running seed script:
 - **Data Model**: [data-model.md](./data-model.md)
 - **API Contracts**: [contracts/](./contracts/)
 - **Research**: [research.md](./research.md)
+- **Security**: [security.md](./security.md)
 
 ### External Documentation
 
@@ -243,4 +248,4 @@ After running seed script:
 
 ---
 
-**Quickstart Status**: Complete | **Last Updated**: 2026-01-16
+**Quickstart Status**: Complete | **Last Updated**: 2026-01-19

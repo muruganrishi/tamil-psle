@@ -2,15 +2,8 @@ import { createClient } from '@/lib/supabase/server';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
-const sections = [
-  { id: 'vetrumai', name: 'Vetrumai', tamil: 'வேற்றுமை' },
-  { id: 'seyyul_pazhamozhi', name: 'Poetry/Proverbs', tamil: 'செய்யுள்/பழமொழி' },
-  { id: 'adaimozhi_echcham', name: 'Adjectives', tamil: 'அடைமொழி/எச்சம்' },
-  { id: 'comprehension', name: 'Comprehension', tamil: 'படிப்புணர்வு' },
-  { id: 'sorporul', name: 'Word Meanings', tamil: 'சொற்பொருள்' },
-  { id: 'oli_verupaadu', name: 'Sound Diff', tamil: 'ஒலி வேறுபாடு' },
-];
+import { SectionPicker } from '@/components/section-picker';
+import type { Profile, Question } from '@/types/database';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -21,10 +14,29 @@ export default async function DashboardPage() {
     .from('profiles')
     .select('role, display_name')
     .eq('id', user!.id)
-    .single();
+    .single() as { data: Pick<Profile, 'role' | 'display_name'> | null };
 
-  const role = profile?.role || 'student';
-  const displayName = profile?.display_name || user!.email?.split('@')[0] || 'Student';
+  const role = profile?.role ?? 'student';
+  const displayName = profile?.display_name ?? user!.email?.split('@')[0] ?? 'Student';
+
+  // Get question counts per section for students
+  let questionCounts: Record<string, number> = {};
+  if (role === 'student') {
+    const { data: counts } = await supabase
+      .from('questions')
+      .select('section')
+      .eq('status', 'published') as { data: Pick<Question, 'section'>[] | null };
+
+    if (counts) {
+      questionCounts = counts.reduce(
+        (acc, q) => {
+          acc[q.section] = (acc[q.section] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      );
+    }
+  }
 
   // For students, show practice sections
   if (role === 'student') {
@@ -37,23 +49,7 @@ export default async function DashboardPage() {
           <p className="text-gray-600">Choose a section to start practicing</p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {sections.map((section) => (
-            <Card key={section.id} className="transition-shadow hover:shadow-md">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">{section.name}</CardTitle>
-                <CardDescription className="font-tamil text-base">
-                  {section.tamil}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Link href={`/practice/${section.id}`}>
-                  <Button className="w-full">Practice</Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <SectionPicker questionCounts={questionCounts} />
 
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
