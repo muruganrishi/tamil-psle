@@ -10,7 +10,7 @@ export default function ImportQuestionsPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleImport = async (questions: any[]) => {
+  const handleImport = async (questions: Record<string, unknown>[]) => {
     const response = await fetch('/api/admin/questions/import-csv', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

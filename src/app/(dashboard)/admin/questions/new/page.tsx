@@ -91,9 +91,9 @@ export default function NewQuestionPage() {
         initialData={
           ocrResult
             ? {
-                section: ocrResult.section as any,
+                section: ocrResult.section as 'vetrumai' | 'seiyul' | 'adaimozhi' | 'padipunarthal' | 'sorporul' | 'oli-verupattu',
                 question_text: ocrResult.question_text,
-                options: ocrResult.options as any,
+                options: ocrResult.options,
               }
             : undefined
         }
@@ -103,7 +103,7 @@ export default function NewQuestionPage() {
 }
 
 function OCRAssistFlow({ onComplete }: { onComplete: (result: OCRResult) => void }) {
-  const [imageData, setImageData] = useState<string | null>(null);
+  const [, setImageData] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<OCRResult | null>(null);

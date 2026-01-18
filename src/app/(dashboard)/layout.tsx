@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
-import type { Profile } from '@/types/database';
 
 // Disable caching for this layout to ensure fresh auth state
 export const dynamic = 'force-dynamic';
