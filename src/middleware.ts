@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // Protected routes - redirect to login if not authenticated
-  const protectedPaths = ['/student', '/teacher', '/admin'];
+  const protectedPaths = ['/dashboard', '/teacher', '/admin', '/practice', '/results', '/saved-words', '/classes'];
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
@@ -54,21 +54,28 @@ export async function middleware(request: NextRequest) {
 
   if (isAuthPath && user) {
     // Get user's role to redirect to appropriate dashboard
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single() as { data: { role: 'student' | 'teacher' | 'admin' } | null };
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single() as { data: { role: 'student' | 'teacher' | 'admin' } | null };
 
-    const url = request.nextUrl.clone();
-    if (profile?.role === 'admin') {
-      url.pathname = '/admin';
-    } else if (profile?.role === 'teacher') {
-      url.pathname = '/teacher';
-    } else {
-      url.pathname = '/student';
+      const url = request.nextUrl.clone();
+      if (profile?.role === 'admin') {
+        url.pathname = '/admin';
+      } else if (profile?.role === 'teacher') {
+        url.pathname = '/teacher';
+      } else {
+        url.pathname = '/dashboard';
+      }
+      return NextResponse.redirect(url);
+    } catch {
+      // If profile fetch fails, redirect to default dashboard
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard';
+      return NextResponse.redirect(url);
     }
-    return NextResponse.redirect(url);
   }
 
   return supabaseResponse;

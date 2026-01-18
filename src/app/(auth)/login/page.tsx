@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
@@ -14,9 +14,44 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/dashboard';
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+          // User is already logged in, get their role and redirect
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single() as { data: { role: 'student' | 'teacher' | 'admin' } | null };
+
+          if (profile?.role === 'admin') {
+            router.replace('/admin');
+          } else if (profile?.role === 'teacher') {
+            router.replace('/teacher');
+          } else {
+            router.replace('/dashboard');
+          }
+          return;
+        }
+      } catch {
+        // No session, continue to show login form
+      } finally {
+        setCheckingSession(false);
+      }
+    };
+
+    checkExistingSession();
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +60,27 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
+
+      // First check if already logged in to avoid conflicts
+      const { data: { user: existingUser } } = await supabase.auth.getUser();
+      if (existingUser) {
+        // Already logged in, just redirect
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', existingUser.id)
+          .single() as { data: { role: 'student' | 'teacher' | 'admin' } | null };
+
+        if (profile?.role === 'admin') {
+          router.replace('/admin');
+        } else if (profile?.role === 'teacher') {
+          router.replace('/teacher');
+        } else {
+          router.replace('/dashboard');
+        }
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -43,6 +99,18 @@ function LoginForm() {
       setLoading(false);
     }
   };
+
+  // Show loading state while checking for existing session
+  if (checkingSession) {
+    return (
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Welcome back</CardTitle>
+          <CardDescription>Checking session...</CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
 
   return (
     <Card>

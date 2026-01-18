@@ -2,21 +2,21 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Practice Session Pages', () => {
   test('should redirect to login when accessing student dashboard unauthenticated', async ({ page }) => {
-    await page.goto('/student');
+    await page.goto('/dashboard');
 
     // Should redirect to login
     await expect(page).toHaveURL(/\/login/);
   });
 
   test('should redirect to login when accessing practice page unauthenticated', async ({ page }) => {
-    await page.goto('/student/practice/vetrumai');
+    await page.goto('/practice/vetrumai');
 
     // Should redirect to login
     await expect(page).toHaveURL(/\/login/);
   });
 
   test('should redirect to login when accessing results page unauthenticated', async ({ page }) => {
-    await page.goto('/student/results/test-attempt-id');
+    await page.goto('/results/test-attempt-id');
 
     // Should redirect to login
     await expect(page).toHaveURL(/\/login/);

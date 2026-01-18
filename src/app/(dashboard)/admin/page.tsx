@@ -84,37 +84,40 @@ export default function AdminDashboardPage() {
 
       {/* Quick actions */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Link href="/admin/questions">
-          <Card className="h-full transition-shadow hover:shadow-md">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-orange-100 p-2">
-                  <FileText className="h-6 w-6 text-orange-600" />
-                </div>
-                <div>
-                  <CardTitle className="text-lg">Question Bank</CardTitle>
-                  <CardDescription>View and manage all questions</CardDescription>
-                </div>
+        <Card className="h-full">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="rounded-lg bg-orange-100 p-2">
+                <FileText className="h-6 w-6 text-orange-600" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex gap-2">
-                <Link href="/admin/questions/new">
-                  <Button size="sm">
-                    <Plus className="mr-1 h-4 w-4" />
-                    Add Question
-                  </Button>
-                </Link>
-                <Link href="/admin/questions/import">
-                  <Button size="sm" variant="outline">
-                    <Upload className="mr-1 h-4 w-4" />
-                    Import CSV
-                  </Button>
-                </Link>
+              <div>
+                <CardTitle className="text-lg">Question Bank</CardTitle>
+                <CardDescription>View and manage all questions</CardDescription>
               </div>
-            </CardContent>
-          </Card>
-        </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2">
+              <Link href="/admin/questions/new">
+                <Button size="sm">
+                  <Plus className="mr-1 h-4 w-4" />
+                  Add Question
+                </Button>
+              </Link>
+              <Link href="/admin/questions/import">
+                <Button size="sm" variant="outline">
+                  <Upload className="mr-1 h-4 w-4" />
+                  Import CSV
+                </Button>
+              </Link>
+              <Link href="/admin/questions">
+                <Button size="sm" variant="ghost">
+                  View All
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
 
         <Link href="/admin/users">
           <Card className="h-full transition-shadow hover:shadow-md">

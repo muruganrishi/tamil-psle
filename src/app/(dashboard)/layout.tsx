@@ -4,6 +4,9 @@ import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import type { Profile } from '@/types/database';
 
+// Disable caching for this layout to ensure fresh auth state
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardLayout({
   children,
 }: {
@@ -21,9 +24,9 @@ export default async function DashboardLayout({
     .from('profiles')
     .select('role, display_name')
     .eq('id', user.id)
-    .single() as { data: Pick<Profile, 'role' | 'display_name'> | null };
+    .single();
 
-  const role = profile?.role ?? 'student';
+  const role = (profile?.role as 'student' | 'teacher' | 'admin') ?? 'student';
   const displayName = profile?.display_name ?? user.email?.split('@')[0] ?? 'User';
 
   return (

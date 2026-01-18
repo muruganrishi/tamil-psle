@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,42 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const router = useRouter();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+          // User is already logged in, get their role and redirect
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single() as { data: { role: 'student' | 'teacher' | 'admin' } | null };
+
+          if (profile?.role === 'admin') {
+            router.replace('/admin');
+          } else if (profile?.role === 'teacher') {
+            router.replace('/teacher');
+          } else {
+            router.replace('/dashboard');
+          }
+          return;
+        }
+      } catch {
+        // No session, continue to show signup form
+      } finally {
+        setCheckingSession(false);
+      }
+    };
+
+    checkExistingSession();
+  }, [router]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +94,18 @@ export default function SignupPage() {
       setLoading(false);
     }
   };
+
+  // Show loading state while checking for existing session
+  if (checkingSession) {
+    return (
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>Checking session...</CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
 
   if (success) {
     return (
