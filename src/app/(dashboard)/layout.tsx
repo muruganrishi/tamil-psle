@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
+import type { Profile } from '@/types/database';
 
 export default async function DashboardLayout({
   children,
@@ -20,10 +21,10 @@ export default async function DashboardLayout({
     .from('profiles')
     .select('role, display_name')
     .eq('id', user.id)
-    .single();
+    .single() as { data: Pick<Profile, 'role' | 'display_name'> | null };
 
-  const role = profile?.role || 'student';
-  const displayName = profile?.display_name || user.email?.split('@')[0] || 'User';
+  const role = profile?.role ?? 'student';
+  const displayName = profile?.display_name ?? user.email?.split('@')[0] ?? 'User';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -43,7 +44,7 @@ export default async function DashboardLayout({
                   <Link href="/practice" className="text-sm font-medium text-gray-600 hover:text-gray-900">
                     Practice
                   </Link>
-                  <Link href="/words" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+                  <Link href="/saved-words" className="text-sm font-medium text-gray-600 hover:text-gray-900">
                     Saved Words
                   </Link>
                   <Link href="/classes" className="text-sm font-medium text-gray-600 hover:text-gray-900">

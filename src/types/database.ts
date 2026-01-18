@@ -28,6 +28,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       classes: {
         Row: {
@@ -51,6 +52,7 @@ export type Database = {
           join_code?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       class_members: {
         Row: {
@@ -71,6 +73,7 @@ export type Database = {
           student_id?: string;
           joined_at?: string;
         };
+        Relationships: [];
       };
       passages: {
         Row: {
@@ -100,6 +103,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       questions: {
         Row: {
@@ -150,6 +154,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       question_options: {
         Row: {
@@ -173,6 +178,7 @@ export type Database = {
           option_text?: string;
           is_correct?: boolean;
         };
+        Relationships: [];
       };
       attempts: {
         Row: {
@@ -223,6 +229,7 @@ export type Database = {
           score?: number | null;
           total_questions?: number;
         };
+        Relationships: [];
       };
       attempt_answers: {
         Row: {
@@ -246,6 +253,7 @@ export type Database = {
           selected_option?: 'A' | 'B' | 'C' | 'D';
           is_correct?: boolean;
         };
+        Relationships: [];
       };
       assignments: {
         Row: {
@@ -302,6 +310,7 @@ export type Database = {
           due_date?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       user_saved_words: {
         Row: {
@@ -331,6 +340,7 @@ export type Database = {
           meaning_ta?: string | null;
           saved_at?: string;
         };
+        Relationships: [];
       };
       word_sense_cache: {
         Row: {
@@ -360,10 +370,18 @@ export type Database = {
           meaning_ta?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
     Enums: {
       user_role: 'student' | 'teacher' | 'admin';
       language_mode: 'en' | 'ta' | 'both';
