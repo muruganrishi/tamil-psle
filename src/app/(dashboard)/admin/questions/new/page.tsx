@@ -24,7 +24,7 @@ interface Passage {
 interface OCRResult {
   section: string;
   question_text: string;
-  options: { label: string; text: string; is_correct: boolean }[];
+  options: { label: 'A' | 'B' | 'C' | 'D'; text: string; is_correct: boolean }[];
 }
 
 export default function NewQuestionPage() {
@@ -91,7 +91,7 @@ export default function NewQuestionPage() {
         initialData={
           ocrResult
             ? {
-                section: ocrResult.section as 'vetrumai' | 'seiyul' | 'adaimozhi' | 'padipunarthal' | 'sorporul' | 'oli-verupattu',
+                section: ocrResult.section as 'vetrumai' | 'seyyul_pazhamozhi' | 'adaimozhi_echcham' | 'comprehension' | 'sorporul' | 'oli_verupaadu',
                 question_text: ocrResult.question_text,
                 options: ocrResult.options,
               }

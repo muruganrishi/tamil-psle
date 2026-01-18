@@ -23,9 +23,9 @@ export default async function DashboardLayout({
     .from('profiles')
     .select('role, display_name')
     .eq('id', user.id)
-    .single();
+    .single() as { data: { role: 'student' | 'teacher' | 'admin'; display_name: string | null } | null };
 
-  const role = (profile?.role as 'student' | 'teacher' | 'admin') ?? 'student';
+  const role = profile?.role ?? 'student';
   const displayName = profile?.display_name ?? user.email?.split('@')[0] ?? 'User';
 
   return (

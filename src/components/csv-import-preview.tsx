@@ -15,7 +15,7 @@ import {
 import { SECTIONS } from '@/components/section-picker';
 import type { QuestionSection } from '@/types/database';
 
-interface ParsedQuestion {
+export interface ParsedQuestion {
   row: number;
   section: QuestionSection;
   question_text: string;

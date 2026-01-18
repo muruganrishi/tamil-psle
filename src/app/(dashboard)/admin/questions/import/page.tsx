@@ -3,14 +3,14 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { CSVImportPreview } from '@/components/csv-import-preview';
+import { CSVImportPreview, type ParsedQuestion } from '@/components/csv-import-preview';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function ImportQuestionsPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleImport = async (questions: Record<string, unknown>[]) => {
+  const handleImport = async (questions: ParsedQuestion[]) => {
     const response = await fetch('/api/admin/questions/import-csv', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
