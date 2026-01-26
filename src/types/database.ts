@@ -121,6 +121,7 @@ export type Database = {
           created_by: string;
           created_at: string;
           updated_at: string;
+          metadata: Record<string, unknown>;
         };
         Insert: {
           id?: string;
@@ -137,6 +138,7 @@ export type Database = {
           created_by: string;
           created_at?: string;
           updated_at?: string;
+          metadata?: Record<string, unknown>;
         };
         Update: {
           id?: string;
@@ -153,6 +155,7 @@ export type Database = {
           created_by?: string;
           created_at?: string;
           updated_at?: string;
+          metadata?: Record<string, unknown>;
         };
         Relationships: [];
       };
@@ -372,6 +375,66 @@ export type Database = {
         };
         Relationships: [];
       };
+      ai_generation_cache: {
+        Row: {
+          id: string;
+          task: string;
+          input_hash: string;
+          output_json: Record<string, unknown>;
+          model: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          task: string;
+          input_hash: string;
+          output_json: Record<string, unknown>;
+          model?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          task?: string;
+          input_hash?: string;
+          output_json?: Record<string, unknown>;
+          model?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      user_vocab_reviews: {
+        Row: {
+          id: string;
+          user_id: string;
+          word: string;
+          next_review_at: string;
+          interval_days: number;
+          ease: number;
+          last_result: 'easy' | 'good' | 'hard' | 'again' | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          word: string;
+          next_review_at?: string;
+          interval_days?: number;
+          ease?: number;
+          last_result?: 'easy' | 'good' | 'hard' | 'again' | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          word?: string;
+          next_review_at?: string;
+          interval_days?: number;
+          ease?: number;
+          last_result?: 'easy' | 'good' | 'hard' | 'again' | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -422,3 +485,7 @@ export type UserRole = Enums<'user_role'>;
 export type LanguageMode = Enums<'language_mode'>;
 export type QuestionSection = Enums<'question_section'>;
 export type ContentStatus = Enums<'content_status'>;
+
+// New shared infrastructure types
+export type AIGenerationCache = Tables<'ai_generation_cache'>;
+export type UserVocabReview = Tables<'user_vocab_reviews'>;
