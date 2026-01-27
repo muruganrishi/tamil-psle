@@ -125,7 +125,7 @@ export async function POST(request: Request) {
     if (contentType.includes('application/json')) {
       const body = await request.json();
       if (body.action === 'confirm' && body.uploadId) {
-        return handleConfirm(body.uploadId, body.skipErrors, user.id, supabase);
+        return handleConfirm(body.uploadId, user.id, supabase);
       }
     }
 
@@ -293,7 +293,6 @@ async function handlePreview(request: Request, userId: string) {
  */
 async function handleConfirm(
   uploadId: string,
-  skipErrors: boolean = true,
   userId: string,
   supabase: Awaited<ReturnType<typeof createClient>>
 ) {

@@ -18,8 +18,6 @@ import type { OptionLabel, PracticeOptionDTO } from '@/types/practice';
 import type { LanguageMode } from '@/types/database';
 
 export interface SorporulQuestionCardProps {
-  /** Unique question ID */
-  questionId: string;
   /** The target Tamil word */
   targetWord: string;
   /** The four definition options */
@@ -53,7 +51,6 @@ export interface SorporulQuestionCardProps {
 }
 
 export function SorporulQuestionCard({
-  questionId,
   targetWord,
   options,
   questionNumber,

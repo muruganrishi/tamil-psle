@@ -255,7 +255,6 @@ export default function SorporulPracticePage() {
 
       {/* Question Card */}
       <SorporulQuestionCard
-        questionId={currentQuestion.id}
         targetWord={currentQuestion.targetWord}
         options={currentQuestion.options}
         questionNumber={currentIndex + 1}

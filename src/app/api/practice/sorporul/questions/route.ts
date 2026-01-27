@@ -290,7 +290,6 @@ export async function POST(request: Request) {
       correctPosition || positions[Math.floor(Math.random() * 4)];
 
     // Build options array with correct answer at specified position
-    const allDefinitions = [correctDefinition, ...distractors];
     const options: { label: OptionLabel; text: string; is_correct: boolean }[] = [];
 
     // Place correct answer at specified position
