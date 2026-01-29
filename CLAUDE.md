@@ -4,6 +4,7 @@ Auto-generated from all feature plans. Last updated: 2026-01-16
 
 ## Active Technologies
 - Supabase PostgreSQL with RLS (003-adaimozhi)
+- Supabase PostgreSQL (existing tables: questions, question_options, user_saved_words, word_sense_cache, user_vocab_reviews) (005-sorporul)
 
 - TypeScript 5.x (strict mode) + Next.js 14+ (App Router), React 18, shadcn/ui, Tailwind CSS, Zod, @supabase/supabase-js, @google/generative-ai (001-tamil-psle-spec)
 
@@ -24,6 +25,7 @@ TypeScript 5.x (strict mode): Follow standard conventions
 
 ## Recent Changes
 - 003-adaimozhi: Added TypeScript 5.x (strict mode) + Next.js 14+ (App Router), React 18, shadcn/ui, Tailwind CSS, Zod, @supabase/supabase-js, @google/generative-ai
+- 005-sorporul: Added TypeScript 5.x (strict mode) + Next.js 14+ (App Router), React 18, shadcn/ui, Tailwind CSS, Zod, @supabase/supabase-js, @google/generative-ai
 
 - 001-tamil-psle-spec: Added TypeScript 5.x (strict mode) + Next.js 14+ (App Router), React 18, shadcn/ui, Tailwind CSS, Zod, @supabase/supabase-js, @google/generative-ai
 
