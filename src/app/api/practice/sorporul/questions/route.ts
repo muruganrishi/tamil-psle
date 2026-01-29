@@ -75,7 +75,7 @@ async function handleStudentFetch(
 ) {
   const parseResult = GetSorporulQuestionsQuerySchema.safeParse({
     limit: searchParams.get('limit') || '10',
-    exclude_ids: searchParams.get('exclude_ids'),
+    exclude_ids: searchParams.get('exclude_ids') ?? undefined,
   });
 
   if (!parseResult.success) {
