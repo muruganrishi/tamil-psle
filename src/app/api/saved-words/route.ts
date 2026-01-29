@@ -68,12 +68,14 @@ export async function POST(request: Request) {
 
     const { word, context, meaning_en, meaning_ta } = parseResult.data;
 
-    // Check if word already saved
+    // Check if same word with same context already saved
+    // The same word can appear in different contexts with different meanings
     const { data: existing } = await supabase
       .from('user_saved_words')
       .select('id')
       .eq('user_id', user.id)
       .eq('word', word)
+      .eq('context', context)
       .single() as { data: { id: string } | null };
 
     if (existing) {

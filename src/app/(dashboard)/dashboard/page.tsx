@@ -58,7 +58,7 @@ export default async function DashboardPage() {
               <CardDescription>Review words you&apos;ve saved</CardDescription>
             </CardHeader>
             <CardContent>
-              <Link href="/words">
+              <Link href="/saved-words">
                 <Button variant="outline">View Saved Words</Button>
               </Link>
             </CardContent>

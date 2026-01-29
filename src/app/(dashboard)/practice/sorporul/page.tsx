@@ -5,17 +5,14 @@
  * Feature: 005-sorporul
  *
  * Students select the correct Tamil definition for a given Tamil word.
- * Includes word lookup integration and vocabulary saving.
  */
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { SorporulQuestionCard } from '@/components/sorporul/SorporulQuestionCard';
 import { ResultsSummary } from '@/components/results-summary';
-import { LanguageToggle } from '@/components/language-toggle';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import type { LanguageMode } from '@/types/database';
 import type { OptionLabel, PracticeOptionDTO } from '@/types/practice';
 
 interface SorporulQuestion {
@@ -52,23 +49,6 @@ export default function SorporulPracticePage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AttemptResponse | null>(null);
-  const [languageMode, setLanguageMode] = useState<LanguageMode>('both');
-
-  // Fetch user's language preference
-  useEffect(() => {
-    async function fetchLanguagePreference() {
-      try {
-        const response = await fetch('/api/profile/language');
-        if (response.ok) {
-          const data = await response.json();
-          setLanguageMode(data.ui_language || 'both');
-        }
-      } catch {
-        // Default to 'both' on error
-      }
-    }
-    fetchLanguagePreference();
-  }, []);
 
   // Fetch sorporul questions
   const fetchQuestions = useCallback(async () => {
@@ -175,12 +155,6 @@ export default function SorporulPracticePage() {
     fetchQuestions();
   }, [fetchQuestions]);
 
-  // Handle word saved callback
-  const handleWordSaved = useCallback((word: string) => {
-    // Could show a toast notification here
-    console.log('Word saved to vocabulary:', word);
-  }, []);
-
   // Loading state
   if (loading) {
     return (
@@ -241,16 +215,9 @@ export default function SorporulPracticePage() {
   return (
     <div className="mx-auto max-w-2xl">
       {/* Header */}
-      <div className="mb-6 flex items-start justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Word Meanings</h1>
-          <p className="font-tamil text-orange-600">சொற்பொருள்</p>
-        </div>
-        <LanguageToggle
-          value={languageMode}
-          onChange={setLanguageMode}
-          persistToProfile
-        />
+      <div className="mb-6">
+        <h1 className="text-xl font-bold text-gray-900">Word Meanings</h1>
+        <p className="font-tamil text-orange-600">சொற்பொருள்</p>
       </div>
 
       {/* Question Card */}
@@ -266,8 +233,6 @@ export default function SorporulPracticePage() {
         showPrevious={currentIndex > 0}
         isLast={currentIndex === questions.length - 1}
         disabled={submitting}
-        languageMode={languageMode}
-        onWordSaved={handleWordSaved}
       />
 
       {/* Submitting overlay */}
