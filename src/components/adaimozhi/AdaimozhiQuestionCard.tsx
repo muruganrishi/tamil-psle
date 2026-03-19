@@ -43,7 +43,7 @@ export function AdaimozhiQuestionCard({
           <TokenizedText
             text={question.questionText}
             languageMode={languageMode}
-            showSaveButton={false}
+            showSaveButton={true}
           />
         </p>
       </div>

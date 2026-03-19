@@ -13,6 +13,11 @@ export type Section = {
   questionCount?: number;
 };
 
+// Sections with dedicated practice pages that differ from their section ID
+const ROUTE_OVERRIDES: Record<string, string> = {
+  adaimozhi_echcham: 'adaimozhi',
+};
+
 export const SECTIONS: Section[] = [
   {
     id: 'vetrumai',
@@ -78,7 +83,7 @@ export function SectionPicker({ questionCounts, basePath = '/practice' }: Sectio
               {count !== undefined && (
                 <p className="mb-3 text-xs text-gray-500">{count} questions available</p>
               )}
-              <Link href={`${basePath}/${section.id}`}>
+              <Link href={`${basePath}/${ROUTE_OVERRIDES[section.id] || section.id}`}>
                 <Button className="w-full" disabled={!hasQuestions}>
                   {hasQuestions ? 'Start Practice' : 'No Questions'}
                 </Button>

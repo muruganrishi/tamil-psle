@@ -16,6 +16,9 @@ export interface AdaimozhiRow {
   complete_phrase: string;
   meaning_ta: string | null;
   meaning_en: string | null;
+  distractor_1: string | null;
+  distractor_2: string | null;
+  distractor_3: string | null;
   status: 'draft' | 'published';
   created_by: string;
   created_at: string;

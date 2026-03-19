@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       .from('attempts')
       .insert({
         user_id: user.id,
-        section: 'adaimozhi',
+        section: 'adaimozhi_echcham',
         assignment_id: assignmentId || null,
         total_questions: entries.length,
       })
@@ -95,15 +95,23 @@ export async function POST(request: NextRequest) {
     // Build questions with distractors
     const questions: AdaimozhiQuestion[] = await Promise.all(
       entries.map(async (entry: AdaimozhiRow) => {
-        const result = await selectDistractors(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          supabase as any,
-          entry.id,
-          entry.missing_word,
-          entry.phrase_text
-        );
+        let distractors: string[];
 
-        const mcqOptions = buildMCQOptions(entry.missing_word, result.distractors);
+        // Use stored distractors if all 3 are present, otherwise auto-generate
+        if (entry.distractor_1 && entry.distractor_2 && entry.distractor_3) {
+          distractors = [entry.distractor_1, entry.distractor_2, entry.distractor_3];
+        } else {
+          const result = await selectDistractors(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            supabase as any,
+            entry.id,
+            entry.missing_word,
+            entry.phrase_text
+          );
+          distractors = result.distractors;
+        }
+
+        const mcqOptions = buildMCQOptions(entry.missing_word, distractors);
         const correctLabel = findCorrectLabel(mcqOptions);
 
         return {

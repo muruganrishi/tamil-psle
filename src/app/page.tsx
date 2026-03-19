@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const sections = [
-  { id: 'vetrumai', name: 'Vetrumai', tamil: 'வேற்றுமை' },
-  { id: 'seyyul_pazhamozhi', name: 'Poetry/Proverbs', tamil: 'செய்யுள்/பழமொழி' },
-  { id: 'adaimozhi_echcham', name: 'Adjectives', tamil: 'அடைமொழி/எச்சம்' },
-  { id: 'comprehension', name: 'Comprehension', tamil: 'படிப்புணர்வு' },
-  { id: 'sorporul', name: 'Word Meanings', tamil: 'சொற்பொருள்' },
-  { id: 'oli_verupaadu', name: 'Sound Diff', tamil: 'ஒலி வேறுபாடு' },
+  { id: 'vetrumai', name: 'Vetrumai', tamil: 'வேற்றுமை', route: 'vetrumai' },
+  { id: 'seyyul_pazhamozhi', name: 'Poetry/Proverbs', tamil: 'செய்யுள்/பழமொழி', route: 'seyyul_pazhamozhi' },
+  { id: 'adaimozhi_echcham', name: 'Adjectives', tamil: 'அடைமொழி/எச்சம்', route: 'adaimozhi' },
+  { id: 'comprehension', name: 'Comprehension', tamil: 'படிப்புணர்வு', route: 'comprehension' },
+  { id: 'sorporul', name: 'Word Meanings', tamil: 'சொற்பொருள்', route: 'sorporul' },
+  { id: 'oli_verupaadu', name: 'Sound Diff', tamil: 'ஒலி வேறுபாடு', route: 'oli_verupaadu' },
 ];
 
 export default function HomePage() {
@@ -72,7 +72,7 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href={`/login?redirect=/practice/${section.id}`}>
+                <Link href={`/login?redirect=/practice/${section.route}`}>
                   <Button variant="outline" className="w-full">
                     Practice
                   </Button>
