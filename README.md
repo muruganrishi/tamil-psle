@@ -2,7 +2,7 @@
 
 A full-stack Tamil language exam preparation platform for Singapore Primary 6 (PSLE) students. It covers all six examinable Tamil language sections through MCQ drills, with AI-powered vocabulary lookup, teacher-managed class assignments, spaced repetition for vocabulary review, and an admin dashboard for digitising paper exam materials via OCR — all in a bilingual (English/Tamil) interface.
 
-**Live app:** [your-app-url.vercel.app](#)
+**Live app:** [tamil-psle.vercel.app](https://tamil-psle.vercel.app)
 
 ![Screenshot placeholder](docs/screenshot.png)
 
